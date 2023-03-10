@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<h1>Пост номер {{ post.id }} </h1>
+<hr>
+{{ post.title|censor }}: {{ post.content|censor }}
+<hr>
+{{ post.author.user.username }}
+{% endblock content %}
