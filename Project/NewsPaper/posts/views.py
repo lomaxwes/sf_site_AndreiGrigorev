@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
@@ -119,7 +120,7 @@ class NewsUpdate(UpdateView):
             return self.template_name
 
 
-class ArticlesUpdate(UpdateView):
+class ArticlesUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     # template_name = 'articles_edit.html'
