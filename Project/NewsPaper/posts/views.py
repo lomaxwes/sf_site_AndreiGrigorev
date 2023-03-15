@@ -8,6 +8,9 @@ from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
+from django.contrib.auth.models import Group
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 
 class PostList(ListView):
