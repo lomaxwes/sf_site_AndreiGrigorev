@@ -73,7 +73,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-ACCOUNT_FORMS = {'signup': 'posts.forms.CommonSignupForm'}
+ACCOUNT_FORMS = {'signup': 'accounts.forms.CommonSignupForm'}
 
 
 AUTHENTICATION_BACKENDS = [

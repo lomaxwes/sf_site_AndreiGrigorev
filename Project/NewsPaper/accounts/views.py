@@ -6,17 +6,17 @@ from django.contrib.auth.decorators import login_required
 from ..posts.models import Author
 
 
-class BaseRegisterView(CreateView):
-    model = User
-    form_class = BaseRegisterForm
-    success_url = '/'
+# class BaseRegisterView(CreateView):
+#     model = User
+#     form_class = BaseRegisterForm
+#     success_url = '/'
 
 
 @login_required
 def upgrade_me(request):
     user = request.user
+    Author.objects.create(user_id=request.user_id)
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
-        Author(user_id=request.user)
-    return redirect('/')
+    return redirect('/posts')

@@ -1,11 +1,27 @@
 {% extends 'flatpages/default.html' %}
 
 {% block content %}
-<h1>Новость</h1>
-<hr>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
-</form>
+{% if is_not_authors %}
+    <h1> Вы должны быть автором! </h1>
+    <button> <a href="accounts/upgrade/"> Нажми, если хочешь стать автором!</a> </button>
+{% else %}
+    {% if 'create' in request.path %}
+        <h1>Создать новость?</h1>
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save" />
+        </form>
+        <hr>
+    {% elif 'edit' in request.path %}
+        <h1> Изменить новость? </h1>
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save" />
+        </form>
+    {% endif %}
+{% endif %}
 {% endblock content %}

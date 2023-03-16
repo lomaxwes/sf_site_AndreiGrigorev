@@ -1,16 +1,11 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from .models import Post
+from .models import Post, Author
 from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
-from django.contrib.auth.models import Group
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
+
 
 
 class PostList(ListView):
@@ -88,13 +83,20 @@ class PostSearch(ListView):
         return context
 
 
-class NewsCreate(CreateView):
+class NewsCreate(LoginRequiredMixin, CreateView):
+    permission_required = ('posts.add_post', )
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
-class ArticlesCreate(CreateView):
+
+class ArticlesCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = ('posts.add_post', )
     form_class = PostForm
     model = Post
     template_name = 'articles_edit.html'
@@ -104,8 +106,14 @@ class ArticlesCreate(CreateView):
         post.types = 'ARTI'
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
-class NewsUpdate(UpdateView):
+
+class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('posts.change_post', 'posts.change_post_category',)
     form_class = PostForm
     model = Post
     # template_name = 'news_edit.html'
@@ -123,7 +131,8 @@ class NewsUpdate(UpdateView):
             return self.template_name
 
 
-class ArticlesUpdate(LoginRequiredMixin, UpdateView):
+class ArticlesUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('posts.change_post', 'posts.change_post_category', )
     form_class = PostForm
     model = Post
     # template_name = 'articles_edit.html'
@@ -137,7 +146,8 @@ class ArticlesUpdate(LoginRequiredMixin, UpdateView):
         return self.template_name
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ('posts.delete_post',)
     model = Post
     # template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
@@ -152,7 +162,8 @@ class NewsDelete(DeleteView):
             return self.template_name
 
 
-class ArticlesDelete(DeleteView):
+class ArticlesDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ('posts.delete_post', )
     model = Post
     # template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
