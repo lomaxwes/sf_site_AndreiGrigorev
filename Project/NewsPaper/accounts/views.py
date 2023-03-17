@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from ..posts.models import Author
 
 
-
 @login_required
 def upgrade_me(request):
     user = request.user
