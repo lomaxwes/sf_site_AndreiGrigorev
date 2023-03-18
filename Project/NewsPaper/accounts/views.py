@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from ..posts.models import Author
+from Project.NewsPaper.posts.models import Author
 
 
 @login_required
