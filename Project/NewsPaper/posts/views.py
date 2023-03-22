@@ -83,8 +83,8 @@ class PostSearch(ListView):
         return context
 
 
-class NewsCreate(LoginRequiredMixin, CreateView):
-    permission_required = ('posts.add_post', )
+class NewsCreate(LoginRequiredMixin, CreateView, PermissionRequiredMixin):
+    permission_required = ('posts.add_post', 'posts.can_post' )
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
@@ -95,7 +95,7 @@ class NewsCreate(LoginRequiredMixin, CreateView):
         return context
 
 
-class ArticlesCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ArticlesCreate(LoginRequiredMixin, CreateView, PermissionRequiredMixin):
     permission_required = ('posts.add_post', )
     form_class = PostForm
     model = Post
@@ -112,57 +112,46 @@ class ArticlesCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return context
 
 
-class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class NewsUpdate(LoginRequiredMixin, UpdateView, PermissionRequiredMixin):
     permission_required = ('posts.change_post', 'posts.change_post_category',)
     form_class = PostForm
     model = Post
-    # template_name = 'news_edit.html'
+    template_name = 'news_edit.html'
 
     def get_template_names(self):
         post = self.get_object()
         # pprint(self)
         # print(post.author)
         # print(post.types)
-        if post.types == 'NEWS':
+        if post.types == 'NEWS' and post.author == self.request.user.author:
             self.template_name = 'news_edit.html'
             return self.template_name
         else:
             self.template_name = '404.html'
             return self.template_name
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
-class ArticlesUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = ('posts.change_post', 'posts.change_post_category', )
+
+class ArticlesUpdate(LoginRequiredMixin, UpdateView, PermissionRequiredMixin):
+    permission_required = ('posts.change_post', )
     form_class = PostForm
     model = Post
-    # template_name = 'articles_edit.html'
+    template_name = 'articles_edit.html'
 
     def get_template_names(self):
         post = self.get_object()
-        if post.types == 'ARTI':
+        if post.types == 'ARTI' and post.author == self.request.user.author:
             self.template_name = 'articles_edit.html'
         else:
             self.template_name = '404.html'
         return self.template_name
 
 
-class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    permission_required = ('posts.delete_post',)
-    model = Post
-    # template_name = 'post_delete.html'
-    success_url = reverse_lazy('post_list')
-
-    def get_template_names(self):
-        post = self.get_object()
-        if post.types == 'NEWS':
-            self.template_name = 'post_delete.html'
-            return self.template_name
-        else:
-            self.template_name = '404.html'
-            return self.template_name
-
-
-class ArticlesDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class NewsDelete(LoginRequiredMixin, DeleteView, PermissionRequiredMixin):
     permission_required = ('posts.delete_post', )
     model = Post
     # template_name = 'post_delete.html'
@@ -170,7 +159,23 @@ class ArticlesDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     def get_template_names(self):
         post = self.get_object()
-        if post.types == 'ARTI':
+        if post.types == 'NEWS' and post.author == self.request.user.author:
+            self.template_name = 'post_delete.html'
+            return self.template_name
+        else:
+            self.template_name = '404.html'
+            return self.template_name
+
+
+class ArticlesDelete(LoginRequiredMixin, DeleteView, PermissionRequiredMixin):
+    permission_required = ('posts.delete_post', )
+    model = Post
+    # template_name = 'post_delete.html'
+    success_url = reverse_lazy('post_list')
+
+    def get_template_names(self):
+        post = self.get_object()
+        if post.types == 'ARTI' and post.author == self.request.user.author:
             self.template_name = 'post_delete.html'
         else:
             self.template_name = '404.html'
