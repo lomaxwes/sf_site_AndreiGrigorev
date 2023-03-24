@@ -5,7 +5,7 @@ from .models import Post, Author
 from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
-
+from django.core.mail import send_mail
 
 
 class PostList(ListView):
@@ -20,6 +20,15 @@ class PostList(ListView):
         context['num_of_posts'] = len(Post.objects.filter())
         return context
 
+    # send_mail(
+    #     subject=f'{Post.types} {Post.date.strftime("%Y-%M-%d")}',
+    #     # имя клиента и дата записи будут в теме для удобства
+    #     message=Post.title,  # сообщение с кратким описанием проблемы
+    #     from_email='aidigo.grigorjev@yandex.ru',  # здесь указываете почту, с которой будете отправлять (об этом попозже)
+    #     recipient_list=['lomaxwes@gmail.com']  # здесь список получателей. Например, секретарь, сам врач и т. д.
+    # )
+    #
+    # return redirect('post:make_post')
 
 class NewsList(ListView):
     model = Post
