@@ -35,7 +35,7 @@ News
                 <td>{{ new.title|truncatewords:3|censor }}</td>
                 <td>{{ new.content|truncatewords:20|censor }}</td>
                 <td>{{ new.rating }}</td>
-                <td>{{ new.types }}</td>
+                <td>{{ new.get_types_display }}</td>
                 <td>{{ new.time_date|date:'d M Y' }}</td>
             </tr>
             {% endfor %}

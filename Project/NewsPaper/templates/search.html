@@ -42,7 +42,7 @@ Posts
                 <td>{{ post.title|truncatewords:3|censor }}</td>
                 <td>{{ post.content|truncatewords:20|censor }}</td>
                 <td>{{ post.rating }}</td>
-                <td>{{ post.types }}</td>
+                <td>{{ post.get_types_display }}</td>
                 <td>{{ post.time_date|date:'d M Y' }}</td>
             </tr>
            {% endfor %}

@@ -5,7 +5,7 @@
         <h1>Создать новость?</h1>
     {% elif 'edit' in request.path %}
         <h1> Изменить новость? </h1>
-{% endif %}
+    {% endif %}
     {% if is_not_authors %}
     <h1> Вы должны быть автором! </h1>
     <button> <a href="{% url 'accounts:upgrade' %}"> Нажми, если хочешь стать автором!</a> </button>

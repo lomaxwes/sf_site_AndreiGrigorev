@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{% if user not in subscribers %}
+    <form action="{% url 'subscribe' cat.pk %}" method="POST">
+        {% csrf_token %}
+        <br>
+        <input type="submit" value="Подписаться"/>
+    </form>
+    {% else %}
+    <form action="{% url 'unsubscribe' cat.pk %}" method="POST">
+        {% csrf_token %}
+        <br>
+        <input type="submit" value="Отписаться"/>
+    </form>
+{% endif %}
+{% endblock content %}

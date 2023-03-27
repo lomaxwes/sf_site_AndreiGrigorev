@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Author
+from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
@@ -30,6 +31,7 @@ class PostList(ListView):
     #
     # return redirect('post:make_post')
 
+
 class NewsList(ListView):
     model = Post
     queryset = Post.objects.filter(types='NEWS')
@@ -47,6 +49,55 @@ class NewsList(ListView):
         context = super().get_context_data(**kwargs)
         context['num_of_news'] = len(Post.objects.filter(types='NEWS'))
         return context
+
+
+class CategoriesList(ListView):
+    model = Category
+    queryset = Category.objects.all()
+    template_name = 'categories.html'
+    context_object_name = 'categories'
+
+
+class PostsInCategory(ListView):
+    model = Post
+    template_name = 'posts_in_category.html'
+    context_object_name = 'posts_in_category'
+
+    def get_queryset(self):
+        posts_in_category = Post.objects.filter(category=self.kwargs['pk'])
+        return posts_in_category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = Category.objects.get(pk=self.kwargs['pk'])
+        context['cat'] = category
+        context['subscribers'] = category.subscribers.all()
+        return context
+
+
+class CategoryDetail(DetailView):
+    model = Category
+    template_name = 'one_category.html'
+    context_object_name = 'one_category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = Category.objects.get(pk=self.kwargs['pk'])
+        context['cat'] = category
+        context['subscribers'] = category.subscribers.all()
+        return context
+
+
+def subscribe(request, pk):
+    category = Category.objects.get(pk=pk)
+    category.subscribers.add(request.user.id)
+    return HttpResponseRedirect(reverse('categories'))
+
+
+def unsubscribe(request, pk):
+    category = Category.objects.get(pk=pk)
+    category.subscribers.remove(request.user.id)
+    return HttpResponseRedirect(reverse('categories'))
 
 
 class ArticlesList(ListView):
@@ -189,3 +240,4 @@ class ArticlesDelete(LoginRequiredMixin, DeleteView, PermissionRequiredMixin):
         else:
             self.template_name = '404.html'
         return self.template_name
+

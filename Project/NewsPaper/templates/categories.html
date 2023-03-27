@@ -1,0 +1,9 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<br><h1>Выберите категорию</h1>
+{% for category in categories %}
+    <a href="/posts/categories/{{ category.id }}">{{ category.get_category_name_display }}</a><br>
+{% endfor %}
+</table>
+{% endblock content %}

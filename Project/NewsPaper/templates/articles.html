@@ -35,7 +35,7 @@ Articles
                <td>{{ article.title|truncatewords:3|censor }}</td>
                 <td>{{ article.content|truncatewords:20|censor }}</td>
                 <td>{{ article.rating }}</td>
-                <td>{{ article.types }}</td>
+                <td>{{ article.get_types_display }}</td>
                 <td>{{ article.time_date|date:'d M Y' }}</td>
            </tr>
            {% endfor %}
