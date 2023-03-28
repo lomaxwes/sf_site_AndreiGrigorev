@@ -12,8 +12,6 @@ from .forms import PostForm
 from pprint import pprint
 from django.core.mail import send_mail
 
-from NewsPaper.settings import DEFAULT_FROM_EMAIL
-
 
 class PostList(ListView):
     model = Post
