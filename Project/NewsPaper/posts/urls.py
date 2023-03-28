@@ -1,6 +1,8 @@
 # import subscribe as subscribe
+from django import views
 from django.urls import path
-from .views import PostList, NewsList, NewsUpdate, PostDetail, ArticlesList, NewsDelete, CategoriesList, PostsInCategory
+from .views import PostList, NewsList, NewsUpdate, PostDetail, ArticlesList, NewsDelete, CategoriesList, \
+   PostsInCategory
 from .views import PostSearch, NewsCreate, ArticlesCreate, ArticlesUpdate, ArticlesDelete, subscribe,  unsubscribe, CategoryDetail
 
 urlpatterns = [

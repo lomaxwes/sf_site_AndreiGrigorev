@@ -1,12 +1,18 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
 from django.core.mail import send_mail
+
+from NewsPaper.settings import DEFAULT_FROM_EMAIL
 
 
 class PostList(ListView):
@@ -20,16 +26,6 @@ class PostList(ListView):
         context = super().get_context_data(**kwargs)
         context['num_of_posts'] = len(Post.objects.filter())
         return context
-
-    # send_mail(
-    #     subject=f'{Post.types} {Post.date.strftime("%Y-%M-%d")}',
-    #     # имя клиента и дата записи будут в теме для удобства
-    #     message=Post.title,  # сообщение с кратким описанием проблемы
-    #     from_email='aidigo.grigorjev@yandex.ru',  # здесь указываете почту, с которой будете отправлять (об этом попозже)
-    #     recipient_list=['lomaxwes@gmail.com']  # здесь список получателей. Например, секретарь, сам врач и т. д.
-    # )
-    #
-    # return redirect('post:make_post')
 
 
 class NewsList(ListView):

@@ -7,7 +7,6 @@ from django.core.exceptions import ValidationError
 
 class PostForm(forms.ModelForm):
     content = forms.CharField(min_length=20)
-    author = forms.ModelChoiceField(queryset=User.objects.all())
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
 
     class Meta:

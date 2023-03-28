@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
 from pathlib import Path
-from NewsPaper.secret_settings import DJN_KEY
+from NewsPaper.secret_settings import DJN_KEY, YA_EML
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'posts',
     'django_filters',
     'accounts',
-
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -79,9 +79,10 @@ ACCOUNT_FORMS = {'signup': 'accounts.forms.CommonSignupForm'}
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 EMAIL_HOST_USER = 'aidigo.grigorjev'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_PASSWORD = ''  # пароль от почты
+EMAIL_HOST_PASSWORD = YA_EML  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 
+DEFAULT_FROM_EMAIL = 'lomaxwes@gmail.com'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
