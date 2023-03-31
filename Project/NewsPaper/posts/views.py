@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 
 class PostList(ListView):
     model = Post
-    ordering = 'time_date'
+    ordering = '-time_date'
     template_name = 'posts.html'
     context_object_name = 'posts'
     paginate_by = 20
