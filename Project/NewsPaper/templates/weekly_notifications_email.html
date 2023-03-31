@@ -7,7 +7,6 @@
 <body>
     <h1>Weekly notifications</h1>
     <p>Hello {{ user.username }},</p>
-    <p>Here are the latest articles from your subscribed categories:</p>
 
     {% for category, posts in category_posts.items %}
         <h2>{{ category.category_name }}</h2>
@@ -15,7 +14,5 @@
             <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
         {% endfor %}
     {% endfor %}
-
-    <p>Thank you for using our service.</p>
 </body>
 </html>
