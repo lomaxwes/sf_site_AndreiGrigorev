@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'django_filters',
     'accounts',
+    'django_apscheduler',
     
     'allauth',
     'allauth.account',
@@ -84,6 +85,9 @@ EMAIL_USE_SSL = True  # Яндекс использует ssl, подробне�
 DEFAULT_FROM_EMAIL = MY_EML
 
 SITE_URL = 'http://127.0.0.1:8000/'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

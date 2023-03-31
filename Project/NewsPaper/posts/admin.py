@@ -1,3 +1,4 @@
+import apscheduler as apscheduler
 from django.contrib import admin
 from .models import Category, Post, Author, PostCategory, CategorySubscriber
 
