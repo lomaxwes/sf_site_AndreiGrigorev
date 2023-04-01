@@ -13,6 +13,8 @@ from django_apscheduler.models import DjangoJobExecution
 
 from posts.models import Category, Post
 
+from NewsPaper.settings import SITE_URL
+
 logger = logging.getLogger(__name__)
 
 
@@ -35,6 +37,7 @@ def send_weekly_notifications():
                 {
                     'category': category,
                     'posts': posts,
+                    'link': f'{SITE_URL}/posts/'
                 }
             )
             msg = EmailMultiAlternatives(
@@ -63,7 +66,7 @@ class Command(BaseCommand):
         # добавляем работу нашему задачнику
         scheduler.add_job(
             send_weekly_notifications,
-            trigger=CronTrigger(week="*"),
+            trigger=CronTrigger(second="*/30"),
             # То же, что и интервал, но задача тригера таким образом более понятна django
             id="send_weekly_notifications",  # уникальный айди
             max_instances=1,
