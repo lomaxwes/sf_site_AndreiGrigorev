@@ -11,15 +11,15 @@ from django.template.loader import render_to_string
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 
-from Project.NewsPaper.posts.models import Category, Post
+from posts.models import Category, Post
 
 logger = logging.getLogger(__name__)
 
 
 # наша задача по выводу текста на экран
-def my_job():
-    #  Your job processing logic here...
-    print('hello from job')
+# def my_job():
+#     #  Your job processing logic here...
+#     print('hello from job')
 
 
 def send_weekly_notifications():
@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
         # добавляем работу нашему задачнику
         scheduler.add_job(
-            my_job,
+            send_weekly_notifications,
             trigger=CronTrigger(week="*"),
             # То же, что и интервал, но задача тригера таким образом более понятна django
             id="send_weekly_notifications",  # уникальный айди
