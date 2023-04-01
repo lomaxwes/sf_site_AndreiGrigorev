@@ -13,54 +13,9 @@
             <p>{{ post.preview }}</p>
             <p>Автор: {{ post.author.user.username }}</p>
             <p>Рейтинг: {{ post.rating }}</p>
-            <a href="{{ link }}{{ post.get_absolute_url }}">Прочитай больше</a>
+            <a href="http://{{ link }}:8000/posts/{{ post.pk }}">Прочитай больше</a><br>
         </li>
     {% endfor %}
     </ul>
 </body>
 </html>
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--  <head>-->
-<!--    <meta charset="UTF-8" />-->
-<!--    <title>Weekly Notifications</title>-->
-<!--  </head>-->
-<!--  <body>-->
-<!--    <h1>Новости для вас в разделе: {{ category.get_category_name_display }}</h1>-->
-<!--    <ul>-->
-<!--      {% for post in posts %}-->
-<!--        <li>-->
-<!--          <h2>{{ post.title }}</h2>-->
-<!--          <p>{{ post.preview }}</p>-->
-<!--          <p>Автор: {{ post.author.user.username }}</p>-->
-<!--          <p>Рейтинг: {{ post.rating }}</p>-->
-<!--          <a href="{{ link }}{{ post.get_absolute_url }}">Прочитай больше</a>-->
-<!--        </li>-->
-<!--      {% endfor %}-->
-<!--    </ul>-->
-<!--  </body>-->
-<!--</html>-->
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Weekly notifications</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>Weekly notifications</h1>-->
-<!--    <p>Hello {{ user.username }},</p>-->
-
-<!--    {% for posts in category_posts.items %}-->
-<!--        <h2>{{ category.category_name }}</h2>-->
-<!--        {% for post in posts %}-->
-<!--            <p><a href="{{ SITE_URL }}{{ post.get_absolute_url }}">{{ post.title }}</a></p>-->
-<!--        {% endfor %}-->
-<!--    {% endfor %}-->
-<!--</body>-->
-<!--</html>-->

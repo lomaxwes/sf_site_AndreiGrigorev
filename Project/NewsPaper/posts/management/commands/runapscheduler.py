@@ -5,6 +5,7 @@ from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
+from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
@@ -37,7 +38,7 @@ def send_weekly_notifications():
                 {
                     'category': category,
                     'posts': posts,
-                    'link': f'{SITE_URL}/posts/'
+                    'link': Site.objects.get_current().domain,
                 }
             )
             msg = EmailMultiAlternatives(
