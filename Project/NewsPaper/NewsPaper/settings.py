@@ -171,9 +171,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://default:WpHCh7fADY9IqC6Nz2QTudeyKx014lwz@redis-11277.c293.eu-central-1-1.ec2.cloud.redislabs.com:11277'
+CELERY_RESULT_BACKEND = 'redis://default:WpHCh7fADY9IqC6Nz2QTudeyKx014lwz@redis-11277.c293.eu-central-1-1.ec2.cloud.redislabs.com:11277'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_IMPORTS = ('tasks', )

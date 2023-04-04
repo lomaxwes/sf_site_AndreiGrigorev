@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -11,6 +11,15 @@ from .filters import PostFilter
 from .forms import PostForm
 from pprint import pprint
 from django.core.mail import send_mail
+from .tasks import hello, printer
+
+
+class HelloView(View):
+
+    def get(self, request):
+        # printer.delay(10)
+        hello.delay()
+        return HttpResponse('Hello!')
 
 
 class PostList(ListView):
