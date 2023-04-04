@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
 from pathlib import Path
-from NewsPaper.secret_settings import DJN_KEY, YA_EML, MY_EML, YA_NAME
+from NewsPaper.secret_settings import DJN_KEY, YA_EML, MY_EML, YA_NAME, RED_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -171,8 +171,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-CELERY_BROKER_URL = 'redis://default:WpHCh7fADY9IqC6Nz2QTudeyKx014lwz@redis-11277.c293.eu-central-1-1.ec2.cloud.redislabs.com:11277'
-CELERY_RESULT_BACKEND = 'redis://default:WpHCh7fADY9IqC6Nz2QTudeyKx014lwz@redis-11277.c293.eu-central-1-1.ec2.cloud.redislabs.com:11277'
+CELERY_BROKER_URL = RED_URL
+CELERY_RESULT_BACKEND = RED_URL
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
