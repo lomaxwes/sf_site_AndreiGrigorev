@@ -11,10 +11,7 @@ from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-
-from posts.models import Category, Post
-
-from NewsPaper.settings import SITE_URL
+from posts.tasks import send_weekly_notifications
 
 logger = logging.getLogger(__name__)
 
@@ -25,30 +22,30 @@ logger = logging.getLogger(__name__)
 #     print('hello from job')
 
 
-def send_weekly_notifications():
-
-    categories = Category.objects.all()
-    for category in categories:
-        subscribers = category.subscribers.all()
-        posts = Post.objects.filter(category=category, time_date__gte=datetime.datetime.now() - datetime.timedelta(days=7))
-        if posts.exists():
-            subject = f'Новые статьи в категории {category.get_category_name_display()}'
-            html_context = render_to_string(
-                'weekly_notifications_email.html',
-                {
-                    'category': category,
-                    'posts': posts,
-                    'link': Site.objects.get_current().domain,
-                }
-            )
-            msg = EmailMultiAlternatives(
-                subject=subject,
-                body='',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[s.email for s in subscribers],
-            )
-            msg.attach_alternative(html_context, 'text/html')
-            msg.send()
+# def send_weekly_notifications():
+#
+#     categories = Category.objects.all()
+#     for category in categories:
+#         subscribers = category.subscribers.all()
+#         posts = Post.objects.filter(category=category, time_date__gte=datetime.datetime.now() - datetime.timedelta(days=7))
+#         if posts.exists():
+#             subject = f'Новые статьи в категории {category.get_category_name_display()}'
+#             html_context = render_to_string(
+#                 'weekly_notifications_email.html',
+#                 {
+#                     'category': category,
+#                     'posts': posts,
+#                     'link': Site.objects.get_current().domain,
+#                 }
+#             )
+#             msg = EmailMultiAlternatives(
+#                 subject=subject,
+#                 body='',
+#                 from_email=settings.DEFAULT_FROM_EMAIL,
+#                 to=[s.email for s in subscribers],
+#             )
+#             msg.attach_alternative(html_context, 'text/html')
+#             msg.send()
 
 
 # функция, которая будет удалять неактуальные задачи
