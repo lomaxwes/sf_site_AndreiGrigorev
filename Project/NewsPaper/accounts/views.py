@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from allauth.account.views import SignupView
 from .forms import CommonSignupForm
 
+
 @login_required
 def upgrade_me(request):
     user = request.user
